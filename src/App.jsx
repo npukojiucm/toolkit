@@ -1,28 +1,26 @@
-import { NavLink, Routes, Route } from "react-router-dom";
-import Search from "./components/Search";
+import { Routes, Route } from "react-router-dom";
 import CardFilmPage from "./Pages/CardFilmPage";
 import FavourotePage from "./Pages/FavouritePage";
+import SearchResultList from "./Pages/SearchResultPage";
+import NavBar from "./components/NavBar";
+import SearchForm from "./components/SearchForm";
 
 function App() {
   return (
-    <div className="app">
-      <nav className="nav">
-        <NavLink to={"/"} className={"nav-link"}>
-          Главная
-        </NavLink>
-
-        <NavLink to={"/favourites"} className={"nav-link"}>
-          Избранное
-        </NavLink>
-      </nav>
+    <>
+      {" "}
+      <NavBar />
+      
+      <SearchForm />
 
       <Routes>
-        <Route path="/" element={<Search />} />
-
+        <Route path="/search" element={<SearchResultList />} />
+        
         <Route path="/film/:id" element={<CardFilmPage />} />
+        
         <Route path="/favourites" element={<FavourotePage />} />
       </Routes>
-    </div>
+    </>
   );
 }
 

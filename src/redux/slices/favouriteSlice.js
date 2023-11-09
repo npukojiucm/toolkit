@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  favouriteList: [],
+  favouritesList: {},
 };
 
 const favouriteSlice = createSlice({
@@ -9,14 +9,44 @@ const favouriteSlice = createSlice({
   initialState,
   reducers: {
     addFavourite: (state, action) => {
-      state.favouriteList = [...state.favouriteList, action.payload];
-      localStorage.setItem("favourite", JSON.stringify(state.favouriteList))
+      state.favouritesList = {
+        ...state.favouritesList,
+        [action.payload["imdbID"]]: action.payload,
+      };
+
+      const storage = localStorage.getItem("favourite"),
+        storageFavourites = JSON.parse(storage);
+
+      localStorage.setItem(
+        "favourite",
+        JSON.stringify({
+          ...storageFavourites,
+          ...state.favouritesList,
+        })
+      );
     },
+    
     delFavourite: (state, action) => {
-      state.favouriteList = state.favouriteList.filter((film) => film.imdbID !== action.payload);
+      delete state.favouritesList[action.payload];
+      state.favouritesList = {
+        ...state.favouritesList,
+      };
+
+      const storage = localStorage.getItem("favourite"),
+        storageFavourites = JSON.parse(storage);
+
+      delete storageFavourites[action.payload];
+
+      localStorage.setItem(
+        "favourite",
+        JSON.stringify({
+          ...storageFavourites,
+          ...state.favouritesList,
+        })
+      );
     },
   },
 });
 
-export const { addFavourite, delFavourite } = favouriteSlice.actions
+export const { addFavourite, delFavourite } = favouriteSlice.actions;
 export default favouriteSlice.reducer;

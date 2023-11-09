@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import searchSlice from "./slices/seacrhSlice";
+import searchByTitleSlice from "./slices/searchByTitleSlice";
 import favouriteSlice from "./slices/favouriteSlice";
+import searchString from "./slices/searchString";
 
 export const store = configureStore({
   reducer: {
-    search: searchSlice,
+    searchByTitle: searchByTitleSlice,
     favourite: favouriteSlice,
+    searchString,
   },
 });
